@@ -6,7 +6,7 @@
 #    By: tjukmong <tjukmong@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/10 04:56:45 by tjukmong          #+#    #+#              #
-#    Updated: 2024/04/10 15:28:32 by tjukmong         ###   ########.fr        #
+#    Updated: 2024/04/10 15:33:17 by tjukmong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,14 +72,10 @@ $(MAIN):
 	@ echo "Remove class $(class_name)..."
 	@ rm -f $(class_header) $(class_body)
 
-$(BUILD_DIR)/%.o:$(SRC_DIR)/%.ino $(HEADER) Makefile
-	@ echo "CXX $<"
-	@ $(CXX) $(CXXFLAGS) $(INCLUDES_OBJ) -c $< -o $@
-
 .git:
 	git init
 
-.gitignore: Makefile
+.gitignore: Makefile $(SRC) $(HEADER) $(LIBRARY)
 	@ echo "Generate .gitignore..."
 	@ echo -ne "*\n!*/\n!.gitignore\n!Makefile\n" > .gitignore
 	@ echo -ne "$(subst ./,,$(subst $(SPACE),\n,$(addprefix !,${SRC})))\n" >> .gitignore

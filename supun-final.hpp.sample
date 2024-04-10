@@ -12,6 +12,6 @@
 #define WIFI_PASS         "wifi_password"
 
 // Debug
-#define LOG_LEVEL         2
+#define LOG_LEVEL         0
 
 #endif
