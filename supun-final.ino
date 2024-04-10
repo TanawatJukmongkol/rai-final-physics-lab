@@ -44,7 +44,25 @@ void setup() {
 
 void loop() {
   ArduinoCloud.update();
-  while (ArduinoIoTPreferredConnection.check() != NetworkConnectionState::CONNECTED)
+  sensor_gas = analogRead(SENSOR_MQ_PIN);
+  sensor_ir = !digitalRead(SENSOR_IR_PIN);
+  if (sensor_gas > sensor_gas_threshold && !sensor_ir)
+  {
+    alarm_on = true;
+    alarm(alarm_cb);
+  }
+  #if LOG_LEVEL > 0
+    Serial.print("Gas_Sensor:");
+    Serial.print(sensor_gas);
+    Serial.print(",");
+    Serial.print("Gas_Threshold:");
+    Serial.print(sensor_gas_threshold);
+    Serial.print(",");
+    Serial.print("IR_Sensor:");
+    Serial.println(sensor_ir);
+  #endif
+  // Will Beep if disconnected, but will continue to work in case of fire.
+  if (ArduinoIoTPreferredConnection.check() != NetworkConnectionState::CONNECTED)
   {
     Serial.println("__ DISCONNECTED __");
     // Beep. Beep.. ... Beep. Beep.. :(
@@ -52,19 +70,5 @@ void loop() {
     delay(300);
     tone(BUZZER_PIN, NOTE_B3, 200);
     delay(1400);
-    return ;
   }
-  sensor_gas = analogRead(SENSOR_MQ_PIN);
-  sensor_ir = !digitalRead(SENSOR_IR_PIN);
-  Serial.print("Gas_Sensor:");
-  Serial.print(sensor_gas);
-  Serial.print(",");
-  Serial.print("Gas_Threshold:");
-  Serial.print(sensor_gas_threshold);
-  Serial.print(",");
-  Serial.print("IR_Sensor:");
-  Serial.println(sensor_ir);
-  if (sensor_gas > sensor_gas_threshold && !sensor_ir)
-    alarm_on = true;
-  alarm(alarm_cb);
 }
