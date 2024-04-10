@@ -2,6 +2,9 @@
 !*/
 !.gitignore
 !Makefile
-!./supun_final.ino !./alarm.ino
-!./alarm.hpp !./pitches.hpp !./supun-final.hpp.sample
-!/*
+!supun-final.ino
+!alarm.ino
+!alarm.hpp
+!pitches.hpp
+!supun-final.hpp.sample
+

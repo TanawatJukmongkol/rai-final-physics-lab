@@ -6,7 +6,7 @@
 #    By: tjukmong <tjukmong@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/10 04:56:45 by tjukmong          #+#    #+#              #
-#    Updated: 2024/04/10 14:22:23 by tjukmong         ###   ########.fr        #
+#    Updated: 2024/04/10 15:28:32 by tjukmong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME			= supun-final
 # Sources and headers
 
 MAIN_SRC		= $(NAME).ino
-SRCS			= supun_final.ino \
+SRCS			= $(MAIN_SRC) \
 				  alarm.ino
 HEADERS			= alarm.hpp \
 				  pitches.hpp \
@@ -33,6 +33,7 @@ MAIN			= $(addprefix $(SRC_DIR)/,$(MAIN_SRC))
 SRC				= $(addprefix $(SRC_DIR)/,$(SRCS))
 HEADER			= $(addprefix $(HEADER_DIR)/,$(HEADERS))
 LIBRARY			= $(addprefix $(LIBRARY_DIR)/,$(LIBRARIES))
+SPACE			:= $(subst ,, )
 
 $(NAME): $(MAIN) .git .gitignore
 
@@ -81,9 +82,9 @@ $(BUILD_DIR)/%.o:$(SRC_DIR)/%.ino $(HEADER) Makefile
 .gitignore: Makefile
 	@ echo "Generate .gitignore..."
 	@ echo -ne "*\n!*/\n!.gitignore\n!Makefile\n" > .gitignore
-	@ echo -ne "$(subst $(SPACE),\n,$(addprefix !,${SRC}))" >> .gitignore
-	@ echo -ne "$(subst $(SPACE),\n,$(addprefix !,${HEADER}))" >> .gitignore
-	@ echo -ne "$(subst $(SPACE),\n,$(addprefix !,${LIBRARY}/*))" >> .gitignore
+	@ echo -ne "$(subst ./,,$(subst $(SPACE),\n,$(addprefix !,${SRC})))\n" >> .gitignore
+	@ echo -ne "$(subst ./,,$(subst $(SPACE),\n,$(addprefix !,${HEADER})))\n" >> .gitignore
+	@ echo -ne "$(subst ./,,$(subst $(SPACE),\n,$(addprefix !,${LIBRARY})))\n" >> .gitignore
 	@ echo "Rebuild tracked files cache..."
 	@- git rm -rf --cached . 2> /dev/null
 	@ git add .
