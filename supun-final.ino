@@ -46,7 +46,7 @@ void loop() {
   ArduinoCloud.update();
   sensor_gas = analogRead(SENSOR_MQ_PIN);
   sensor_ir = !digitalRead(SENSOR_IR_PIN);
-  if (sensor_gas > sensor_gas_threshold && !sensor_ir)
+  if (sensor_gas >= sensor_gas_threshold && !sensor_ir)
   {
     alarm_on = true;
     alarm(alarm_cb);
